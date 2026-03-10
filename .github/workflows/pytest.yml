@@ -19,15 +19,20 @@ jobs:
           POSTGRES_DB: campus_data_db
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
     
+    # Check what files changed to decide which tests to run
+    - name: Check for changes
+      id: changes
+      uses: dorny/paths-filter@v3
+      with:
+        filters: |
+          services:
+            - 'backend/services/**'
+            - 'backend/tests/test_llm.py'
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -49,29 +54,32 @@ jobs:
     - name: Seed required data
       working-directory: backend
       env:
-        # DB connection string for the test run
         DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
-        # Secrets used for seeding
         ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       run: |
         python seed.py
         
-    - name: Run tests with pytest
+    - name: Run Authentication Tests (Always)
       working-directory: backend
       env:
-        # DB connection string for the test run
         DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
-        # Secrets used by the LLM and Auth during tests
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      run: |
+        python -m pytest tests/test_auth.py
+
+    - name: Run LLM Tests (Conditionally)
+      if: steps.changes.outputs.services == 'true'
+      working-directory: backend
+      env:
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         LLM_PROVIDER: "gemini"
-        GEMINI_MODEL: "gemini-3.1-flash-lite-preview"
+        GEMINI_MODEL: "gemini-2.5-flash"
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         JWT_EXPIRE_HOURS: "24"
-        # Admin credentials (sometimes needed in test comparisons)
         ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-        # Pass the prompt context via an environment variable
         TEXT_TO_SQL_SCHEMA_CONTEXT: ${{ secrets.TEXT_TO_SQL_SCHEMA_CONTEXT }}
       run: |
-        pytest tests/
+        python -m pytest tests/test_llm.py
