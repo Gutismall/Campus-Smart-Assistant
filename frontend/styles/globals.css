@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background-light font-display text-neutral-900 min-h-screen antialiased flex flex-col;
+  }
+}
