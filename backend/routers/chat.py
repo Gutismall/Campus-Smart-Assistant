@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import schemas
 from database import get_db
 from services import answer_question
-
+from dependencies import get_current_user
 router = APIRouter(
     prefix="/api/chat",
     tags=["chat"],
@@ -13,12 +13,11 @@ router = APIRouter(
 async def handle_chat_message(
     request: schemas.ChatRequest,
     db: Session = Depends(get_db),
-    # TODO: replace None with actual JWT-decoded user_metadata once auth is implemented
-    # user_metadata: dict = Depends(get_current_user)
+    user_metadata: dict = Depends(get_current_user)
 ):
     reply = await answer_question(
         question=request.message,
-        user_metadata=None,  # Swap for real user once JWT is ready
+        user_metadata=user_metadata,
         db=db,
     )
     return schemas.ChatResponse(reply=reply)

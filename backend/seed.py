@@ -1,5 +1,6 @@
 import os
 import subprocess
+from datetime import datetime
 from sqlalchemy.orm import sessionmaker
 from database import engine
 from models.user import User
@@ -40,8 +41,7 @@ def run_seed():
             admin = User(
                 email=admin_email,
                 id_number="ADMIN-001",
-                hashed_password=hash_password(admin_password),
-                is_active=True,
+                password=hash_password(admin_password),
                 is_system_admin=True,
             )
             db.add(admin)
@@ -74,8 +74,7 @@ def run_seed():
             student_user = User(
                 email="student@campus.com",
                 id_number="STU-001",
-                hashed_password=hash_password("student123"),
-                is_active=True,
+                password=hash_password("student123"),
                 is_system_admin=False,
             )
             db.add(student_user)
@@ -95,8 +94,7 @@ def run_seed():
             lecturer_user = User(
                 email="lecturer@campus.com",
                 id_number="LEC-001",
-                hashed_password=hash_password("lecturer123"),
-                is_active=True,
+                password=hash_password("lecturer123"),
                 is_system_admin=False,
             )
             db.add(lecturer_user)
@@ -104,9 +102,8 @@ def run_seed():
             db.refresh(lecturer_user)
             lecturer_profile = Lecturer(
                 user_id=lecturer_user.id,
-                division_id=division.id,
-                title="Dr.",
-                office_hours="Mon-Wed 10:00-12:00",
+                divisions=[division],
+                office_hours=datetime.now(),
             )
             db.add(lecturer_profile)
             db.commit()

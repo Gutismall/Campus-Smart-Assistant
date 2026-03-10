@@ -1,10 +1,9 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional
 
 class UserBase(BaseModel):
     email: EmailStr
     id_number: str
-    is_active: Optional[bool] = True
     is_system_admin: Optional[bool] = False
 
 class UserCreate(UserBase):
@@ -12,6 +11,4 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

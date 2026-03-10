@@ -8,8 +8,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     id_number = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True)
+    password = Column(String, nullable=False)
     is_system_admin = Column(Boolean, default=False)
     
     # Relationships

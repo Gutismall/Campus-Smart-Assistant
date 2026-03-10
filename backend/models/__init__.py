@@ -7,3 +7,4 @@ from .student import Student
 from .lecturer import Lecturer
 from .test import Test
 from .student_test import StudentTest
+from .lecturer_division import lecturer_division_table

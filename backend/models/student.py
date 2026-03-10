@@ -7,8 +7,8 @@ class Student(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
-    division_id = Column(Integer, ForeignKey("divisions.id"))
-    enrollment_year = Column(Integer)
+    division_id = Column(Integer, ForeignKey("divisions.id"), nullable=False)
+    enrollment_year = Column(Integer, nullable=False)
     
     user = relationship("User", back_populates="student_profile")
     division = relationship("Division", back_populates="students")

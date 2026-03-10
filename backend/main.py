@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from contextlib import asynccontextmanager
 
 from database import engine, Base
 import models
@@ -9,13 +10,14 @@ from routers import chat, data, auth
 from dependencies import get_current_user, get_admin_user
 from seed import run_migrations, run_seed
 
-app = FastAPI(title="Campus Data Backend")
-
-# ── Run Alembic migrations and seed data on startup ────────────────────────────
-@app.on_event("startup")
-def init_db():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Run Alembic migrations and seed data on startup
     run_migrations()
     run_seed()
+    yield
+
+app = FastAPI(title="Campus Data Backend", lifespan=lifespan)
 
 # ── Routers ────────────────────────────────────────────────────────────────────
 app.include_router(auth.router)

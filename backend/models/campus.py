@@ -7,7 +7,7 @@ class Campus(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    address_details = Column(String)
+    address_details = Column(String, nullable=False)
     
     divisions = relationship("Division", back_populates="campus")
     buildings = relationship("CampusBuilding", back_populates="campus")

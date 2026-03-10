@@ -6,7 +6,7 @@ services:
     container_name: campus_db
     restart: unless-stopped
     env_file:
-      - ./.env
+      - ./db/.env
     ports:
       - "5432:5432"
     volumes:
@@ -20,12 +20,11 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./.env
+      - ./backend/.env
     volumes:
       - ./backend:/app
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   frontend:
     build:
@@ -35,7 +34,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ./.env
+      - ./frontend/.env
     volumes:
       - ./frontend:/app
       - /app/node_modules

@@ -6,8 +6,11 @@ from pydantic import BaseModel
 
 from database import get_db
 from models.user import User
+from models.student import Student
+from models.lecturer import Lecturer
 from schemas.auth import LoginRequest, RegisterRequest, RegisterResponse
 from schemas.token import Token
+from datetime import datetime
 from utils.password import hash_password, verify_password
 from utils.jwt import create_student_token, create_lecturer_token, create_admin_token, decode_token
 
@@ -19,6 +22,8 @@ class VerifyResponse(BaseModel):
     valid: bool
     role: str | None = None
     user_id: int | None = None
+    student_id: int | None = None
+    lecturer_id: int | None = None
 
 
 @router.get("/verify", response_model=VerifyResponse)
@@ -30,7 +35,9 @@ def verify_token(payload: dict = Depends(get_current_user)):
     return VerifyResponse(
         valid=True, 
         role=payload.get("role"), 
-        user_id=int(payload.get("sub")) if payload.get("sub") else None
+        user_id=int(payload.get("sub")) if payload.get("sub") else None,
+        student_id=payload.get("student_id"),
+        lecturer_id=payload.get("lecturer_id")
     )
 
 
@@ -56,13 +63,35 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     new_user = User(
         email=request.email,
         id_number=request.id_number,
-        hashed_password=hash_password(request.password),
-        is_active=True,
+        password=hash_password(request.password),
         is_system_admin=False,
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
+    # If role is student or lecturer, create the profile
+    if request.role == "student":
+        student_profile = Student(
+            user_id=new_user.id,
+            division_id=request.division_id,
+            enrollment_year=2024  # Default for now
+        )
+        db.add(student_profile)
+    elif request.role == "lecturer":
+        from models.division import Division
+        divisions = []
+        if request.division_ids:
+            divisions = db.query(Division).filter(Division.id.in_(request.division_ids)).all()
+        
+        lecturer_profile = Lecturer(
+            user_id=new_user.id,
+            office_hours=datetime.now(), # Default for now
+            divisions=divisions
+        )
+        db.add(lecturer_profile)
+    
+    db.commit()
 
     return RegisterResponse(
         id=new_user.id,
@@ -85,7 +114,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
             detail="No account found with this email.",
         )
 
-    if not verify_password(request.password, user.hashed_password):
+    if not verify_password(request.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect password.",

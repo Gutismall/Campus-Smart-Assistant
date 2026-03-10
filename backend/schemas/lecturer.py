@@ -3,7 +3,7 @@ from typing import Optional
 
 class LecturerBase(BaseModel):
     user_id: int
-    division_id: Optional[int] = None
+    division_ids: list[int] = []
     title: Optional[str] = None
     office_hours: Optional[str] = None
 

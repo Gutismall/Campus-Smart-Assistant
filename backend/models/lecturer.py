@@ -1,16 +1,14 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
+from models.lecturer_division import lecturer_division_table
 
 class Lecturer(Base):
     __tablename__ = "lecturers"
     
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
-    division_id = Column(Integer, ForeignKey("divisions.id"))
-    title = Column(String)
-    office_hours = Column(String)
+    office_hours = Column(DateTime,nullable=False)
     
     user = relationship("User", back_populates="lecturer_profile")
-    division = relationship("Division", back_populates="lecturers")
-    tests = relationship("Test", back_populates="lecturer")
+    divisions = relationship("Division", secondary=lecturer_division_table, back_populates="lecturers")
