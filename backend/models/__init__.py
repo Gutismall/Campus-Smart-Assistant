@@ -1,5 +1,4 @@
 from .user import User
-from .session import Session
 from .campus import Campus
 from .division import Division
 from .campus_building import CampusBuilding

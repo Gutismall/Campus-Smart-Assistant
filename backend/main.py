@@ -1,21 +1,28 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from database import get_db, engine, Base
-from sqlalchemy.orm import Session
-from fastapi import Depends, HTTPException
+
+from database import engine, Base
 import models
 import schemas
 from routers import chat, data, auth
 from dependencies import get_current_user, get_admin_user
+from seed import run_migrations, run_seed
 
 app = FastAPI(title="Campus Data Backend")
 
+# ── Run Alembic migrations and seed data on startup ────────────────────────────
+@app.on_event("startup")
+def init_db():
+    run_migrations()
+    run_seed()
+
+# ── Routers ────────────────────────────────────────────────────────────────────
 app.include_router(auth.router)
 app.include_router(chat.router, dependencies=[Depends(get_current_user)])
 app.include_router(data.router, dependencies=[Depends(get_admin_user)])
 
-# Configure CORS
+# ── CORS ───────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

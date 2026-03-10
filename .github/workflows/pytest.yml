@@ -38,10 +38,38 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Run Alembic migrations
+      working-directory: backend
+      env:
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+      run: |
+        alembic upgrade head
+
+    - name: Seed required data
+      working-directory: backend
+      env:
+        # DB connection string for the test run
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+        # Secrets used for seeding
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      run: |
+        python seed.py
         
     - name: Run tests with pytest
       working-directory: backend
       env:
+        # DB connection string for the test run
         DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+        # Secrets used by the LLM and Auth during tests
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        LLM_PROVIDER: "gemini"
+        GEMINI_MODEL: "gemini-3.1-flash-lite-preview"
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_EXPIRE_HOURS: "24"
+        # Admin credentials (sometimes needed in test comparisons)
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       run: |
         pytest tests/
