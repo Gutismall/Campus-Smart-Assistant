@@ -1,0 +1,16 @@
+﻿2026-03-10T14:38:27.9445540Z ##[group]Run alembic upgrade head
+2026-03-10T14:38:27.9445888Z [36;1malembic upgrade head[0m
+2026-03-10T14:38:27.9497857Z shell: /usr/bin/bash -e {0}
+2026-03-10T14:38:27.9498108Z env:
+2026-03-10T14:38:27.9498364Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:27.9498830Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib/pkgconfig
+2026-03-10T14:38:27.9499283Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:27.9499649Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:27.9500021Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:27.9500394Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib
+2026-03-10T14:38:27.9501011Z   DATABASE_URL: ***localhost:5432/campus_data_db
+2026-03-10T14:38:27.9501289Z ##[endgroup]
+2026-03-10T14:38:28.5315144Z INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+2026-03-10T14:38:28.5317243Z INFO  [alembic.runtime.migration] Will assume transactional DDL.
+2026-03-10T14:38:28.5443884Z INFO  [alembic.runtime.migration] Running upgrade  -> 0001, initial schema
+2026-03-10T14:38:28.5960100Z INFO  [alembic.runtime.migration] Running upgrade 0001 -> 0002, remove sessions table

@@ -71,5 +71,7 @@ jobs:
         # Admin credentials (sometimes needed in test comparisons)
         ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        # Pass the prompt context via an environment variable
+        TEXT_TO_SQL_SCHEMA_CONTEXT: ${{ secrets.TEXT_TO_SQL_SCHEMA_CONTEXT }}
       run: |
         pytest tests/

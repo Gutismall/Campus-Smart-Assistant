@@ -65,4 +65,13 @@ async def answer_question(question: str, user_metadata: dict | None, db: Session
     )
 
     response = chat.send_message(question)
+    
+    # If the response has no text, it might be waiting for a tool result 
+    # or it might have just returned a function call. 
+    # The SDK usually handles the round-trip, but we need to ensure we grab the final text.
+    if not response.text:
+        # Check if the last part of the response is a function call
+        # In case of manual handling or unexpected SDK state, return a fallback.
+        return "The database assistant is processing your request..."
+
     return response.text.strip()

@@ -1,0 +1,132 @@
+﻿2026-03-10T14:41:45.9830985Z Print service container logs: 5ce2e04b822f4d5c83d373acd28e1f95_postgres15_8328bf
+2026-03-10T14:41:45.9835775Z ##[command]/usr/bin/docker logs --details 320c91d064dc4eab6e714725a864b9cb349a78d7368c88c50aebe02f3c3c93c3
+2026-03-10T14:41:45.9985880Z  The files belonging to this database system will be owned by user "postgres".
+2026-03-10T14:41:45.9991269Z  This user must also own the server process.
+2026-03-10T14:41:45.9994532Z  
+2026-03-10T14:41:45.9997788Z  The database cluster will be initialized with locale "en_US.utf8".
+2026-03-10T14:41:46.0000787Z  The default database encoding has accordingly been set to "UTF8".
+2026-03-10T14:41:46.0001551Z  The default text search configuration will be set to "english".
+2026-03-10T14:41:46.0002103Z  
+2026-03-10T14:41:46.0002410Z  Data page checksums are disabled.
+2026-03-10T14:41:46.0002817Z  
+2026-03-10T14:41:46.0003312Z  fixing permissions on existing directory /var/lib/postgresql/data ... ok
+2026-03-10T14:41:46.0003963Z  creating subdirectories ... ok
+2026-03-10T14:41:46.0004578Z  selecting dynamic shared memory implementation ... posix
+2026-03-10T14:41:46.0005167Z  selecting default max_connections ... 100
+2026-03-10T14:41:46.0005625Z  selecting default shared_buffers ... 128MB
+2026-03-10T14:41:46.0006120Z  selecting default time zone ... Etc/UTC
+2026-03-10T14:41:46.0006862Z  creating configuration files ... ok
+2026-03-10T14:41:46.0007300Z  running bootstrap script ... ok
+2026-03-10T14:41:46.0007784Z  performing post-bootstrap initialization ... ok
+2026-03-10T14:41:46.0011303Z  initdb: warning: enabling "trust" authentication for local connections
+2026-03-10T14:41:46.0012520Z  initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-03-10T14:41:46.0013895Z  syncing data to disk ... ok
+2026-03-10T14:41:46.0014298Z  
+2026-03-10T14:41:46.0017413Z  
+2026-03-10T14:41:46.0017835Z  Success. You can now start the database server using:
+2026-03-10T14:41:46.0018341Z  
+2026-03-10T14:41:46.0018729Z      pg_ctl -D /var/lib/postgresql/data -l logfile start
+2026-03-10T14:41:46.0019235Z  
+2026-03-10T14:41:46.0025757Z  waiting for server to start....2026-03-10 14:38:02.261 UTC [47] LOG:  starting PostgreSQL 15.17 (Debian 15.17-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-03-10T14:41:46.0027480Z  2026-03-10 14:38:02.262 UTC [47] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-03-10T14:41:46.0028417Z  2026-03-10 14:38:02.265 UTC [50] LOG:  database system was shut down at 2026-03-10 14:38:02 UTC
+2026-03-10T14:41:46.0029277Z  2026-03-10 14:38:02.269 UTC [47] LOG:  database system is ready to accept connections
+2026-03-10T14:41:46.0029889Z   done
+2026-03-10T14:41:46.0030164Z  server started
+2026-03-10T14:41:46.0030466Z  CREATE DATABASE
+2026-03-10T14:41:46.0030757Z  
+2026-03-10T14:41:46.0031003Z  
+2026-03-10T14:41:46.0031497Z  /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+2026-03-10T14:41:46.0032087Z  
+2026-03-10T14:41:46.0032932Z  2026-03-10 14:38:02.574 UTC [1] LOG:  starting PostgreSQL 15.17 (Debian 15.17-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-03-10T14:41:46.0034100Z  2026-03-10 14:38:02.574 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-03-10T14:41:46.0034842Z  2026-03-10 14:38:02.574 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-03-10T14:41:46.0035648Z  2026-03-10 14:38:02.575 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-03-10T14:41:46.0036759Z  2026-03-10 14:38:02.578 UTC [63] LOG:  database system was shut down at 2026-03-10 14:38:02 UTC
+2026-03-10T14:41:46.0037954Z  2026-03-10 14:38:02.583 UTC [1] LOG:  database system is ready to accept connections
+2026-03-10T14:41:46.0038695Z  2026-03-10 14:38:11.546 UTC [74] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0039341Z  2026-03-10 14:38:21.643 UTC [81] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0040057Z  2026-03-10 14:38:31.760 UTC [90] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0040977Z  2026-03-10 14:38:41.831 UTC [99] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0041565Z  2026-03-10 14:38:51.902 UTC [107] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0042127Z  2026-03-10 14:39:01.973 UTC [116] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0042707Z  2026-03-10 14:39:12.041 UTC [124] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0043291Z  2026-03-10 14:39:22.109 UTC [133] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0043871Z  2026-03-10 14:39:32.175 UTC [142] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0044499Z  2026-03-10 14:39:42.242 UTC [151] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0045120Z  2026-03-10 14:39:52.309 UTC [159] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0045721Z  2026-03-10 14:40:02.380 UTC [168] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0047190Z  2026-03-10 14:40:07.456 UTC [169] ERROR:  relation "departments" does not exist at character 45
+2026-03-10T14:41:46.0048021Z  2026-03-10 14:40:07.456 UTC [169] STATEMENT:  SELECT d.division_name
+2026-03-10T14:41:46.0048941Z  	FROM students s
+2026-03-10T14:41:46.0049416Z  	JOIN departments dep ON s.department_id = dep.department_id
+2026-03-10T14:41:46.0050050Z  	JOIN divisions d ON dep.division_id = d.division_id
+2026-03-10T14:41:46.0050556Z  	WHERE s.student_id = 1;
+2026-03-10T14:41:46.0051310Z  2026-03-10 14:40:08.407 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0052591Z  2026-03-10 14:40:08.407 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0053195Z  2026-03-10 14:40:12.446 UTC [177] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0053751Z  2026-03-10 14:40:15.360 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0054482Z  2026-03-10 14:40:15.360 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0055051Z  2026-03-10 14:40:22.512 UTC [186] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0055597Z  2026-03-10 14:40:31.605 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0056572Z  2026-03-10 14:40:31.605 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0057202Z  2026-03-10 14:40:32.581 UTC [194] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0057594Z  2026-03-10 14:40:42.647 UTC [204] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0058135Z  2026-03-10 14:40:51.531 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0058865Z  2026-03-10 14:40:51.531 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0059597Z  2026-03-10 14:40:52.273 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0060317Z  2026-03-10 14:40:52.273 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0060879Z  2026-03-10 14:40:52.721 UTC [213] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0061431Z  2026-03-10 14:40:55.856 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0062046Z  2026-03-10 14:40:55.856 UTC [169] STATEMENT:  SELECT * FROM students WHERE student_id = 1;
+2026-03-10T14:41:46.0062849Z  2026-03-10 14:40:56.678 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0063570Z  2026-03-10 14:40:56.678 UTC [169] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0064284Z  2026-03-10 14:40:57.514 UTC [169] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0065122Z  2026-03-10 14:40:57.514 UTC [169] STATEMENT:  SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';
+2026-03-10T14:41:46.0065722Z  2026-03-10 14:40:59.487 UTC [214] ERROR:  relation "student" does not exist at character 21
+2026-03-10T14:41:46.0066153Z  2026-03-10 14:40:59.487 UTC [214] STATEMENT:  SELECT d.name 
+2026-03-10T14:41:46.0066932Z  	FROM student s 
+2026-03-10T14:41:46.0067208Z  	JOIN department d ON s.department_id = d.department_id 
+2026-03-10T14:41:46.0067532Z  	WHERE s.student_id = 0;
+2026-03-10T14:41:46.0067996Z  2026-03-10 14:41:00.548 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0068738Z  2026-03-10 14:41:00.548 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0069313Z  2026-03-10 14:41:02.787 UTC [222] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0069863Z  2026-03-10 14:41:02.993 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0070587Z  2026-03-10 14:41:02.993 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0071305Z  2026-03-10 14:41:03.756 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0072026Z  2026-03-10 14:41:03.756 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0072747Z  2026-03-10 14:41:04.835 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0073457Z  2026-03-10 14:41:04.835 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0074177Z  2026-03-10 14:41:05.481 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0074893Z  2026-03-10 14:41:05.481 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0075670Z  2026-03-10 14:41:06.391 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0076694Z  2026-03-10 14:41:06.391 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0077270Z  2026-03-10 14:41:12.853 UTC [231] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0077652Z  2026-03-10 14:41:22.923 UTC [239] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0078017Z  2026-03-10 14:41:32.990 UTC [248] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0078545Z  2026-03-10 14:41:37.662 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0079288Z  2026-03-10 14:41:37.662 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0080004Z  2026-03-10 14:41:38.488 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0080715Z  2026-03-10 14:41:38.488 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0081425Z  2026-03-10 14:41:41.771 UTC [214] ERROR:  current transaction is aborted, commands ignored until end of transaction block
+2026-03-10T14:41:46.0082141Z  2026-03-10 14:41:41.771 UTC [214] STATEMENT:  SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+2026-03-10T14:41:46.0082857Z  2026-03-10 14:41:43.058 UTC [256] FATAL:  role "root" does not exist
+2026-03-10T14:41:46.0083265Z  2026-03-10 14:41:45.348 UTC [169] WARNING:  there is no transaction in progress
+2026-03-10T14:41:46.0083798Z  waiting for server to shut down....2026-03-10 14:38:02.452 UTC [47] LOG:  received fast shutdown request
+2026-03-10T14:41:46.0084425Z  2026-03-10 14:38:02.453 UTC [47] LOG:  aborting any active transactions
+2026-03-10T14:41:46.0084975Z  2026-03-10 14:38:02.455 UTC [47] LOG:  background worker "logical replication launcher" (PID 53) exited with exit code 1
+2026-03-10T14:41:46.0085527Z  2026-03-10 14:38:02.457 UTC [48] LOG:  shutting down
+2026-03-10T14:41:46.0085893Z  2026-03-10 14:38:02.458 UTC [48] LOG:  checkpoint starting: shutdown immediate
+2026-03-10T14:41:46.0087205Z  2026-03-10 14:38:02.478 UTC [48] LOG:  checkpoint complete: wrote 922 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.017 s, sync=0.003 s, total=0.021 s; sync files=301, longest=0.001 s, average=0.001 s; distance=4239 kB, estimate=4239 kB
+2026-03-10T14:41:46.0088178Z  2026-03-10 14:38:02.485 UTC [47] LOG:  database system is shut down
+2026-03-10T14:41:46.0088481Z   done
+2026-03-10T14:41:46.0088649Z  server stopped
+2026-03-10T14:41:46.0088824Z  
+2026-03-10T14:41:46.0089047Z  PostgreSQL init process complete; ready for start up.
+2026-03-10T14:41:46.0089332Z  
+2026-03-10T14:41:46.0095756Z Stop and remove container: 5ce2e04b822f4d5c83d373acd28e1f95_postgres15_8328bf
+2026-03-10T14:41:46.0101181Z ##[command]/usr/bin/docker rm --force 320c91d064dc4eab6e714725a864b9cb349a78d7368c88c50aebe02f3c3c93c3
+2026-03-10T14:41:46.1472235Z 320c91d064dc4eab6e714725a864b9cb349a78d7368c88c50aebe02f3c3c93c3
+2026-03-10T14:41:46.1519488Z Remove container network: github_network_02996c4baccc4d84a294eaaa9dc04563
+2026-03-10T14:41:46.1525562Z ##[command]/usr/bin/docker network rm github_network_02996c4baccc4d84a294eaaa9dc04563
+2026-03-10T14:41:46.2394792Z github_network_02996c4baccc4d84a294eaaa9dc04563

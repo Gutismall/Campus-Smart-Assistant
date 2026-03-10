@@ -1,0 +1,21 @@
+﻿2026-03-10T14:38:28.6713509Z ##[group]Run python seed.py
+2026-03-10T14:38:28.6713822Z [36;1mpython seed.py[0m
+2026-03-10T14:38:28.6763806Z shell: /usr/bin/bash -e {0}
+2026-03-10T14:38:28.6764051Z env:
+2026-03-10T14:38:28.6764307Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:28.6764739Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib/pkgconfig
+2026-03-10T14:38:28.6765149Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:28.6765517Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:28.6765880Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2026-03-10T14:38:28.6766250Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib
+2026-03-10T14:38:28.6767200Z   DATABASE_URL: ***localhost:5432/campus_data_db
+2026-03-10T14:38:28.6767521Z   ADMIN_EMAIL: ***
+2026-03-10T14:38:28.6767735Z   ADMIN_PASSWORD: ***
+2026-03-10T14:38:28.6767948Z ##[endgroup]
+2026-03-10T14:38:29.9023681Z 🌱 Running seed data...
+2026-03-10T14:38:29.9025647Z ✅ Admin created   → id=1 (***)
+2026-03-10T14:38:29.9026264Z ✅ Campus created  → id=1
+2026-03-10T14:38:29.9026905Z ✅ Division created → id=1
+2026-03-10T14:38:29.9027355Z ✅ Student created  → user_id=2
+2026-03-10T14:38:29.9027811Z ✅ Lecturer created → user_id=3
+2026-03-10T14:38:29.9028242Z 🎉 Seed complete.
