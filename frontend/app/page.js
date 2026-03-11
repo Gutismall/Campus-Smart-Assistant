@@ -130,7 +130,7 @@ export default function LandingPage() {
                 navItems={
                     userRole === 'admin'
                         ? [
-                            { label: 'System Settings', href: '/admin/settings' }
+                            { label: 'System Settings', href: '/admin/console' }
                         ]
                         : []
                 }
@@ -153,14 +153,6 @@ export default function LandingPage() {
                                 <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">CampusBot</h3>
                                 <p className="text-xs text-green-600 dark:text-green-500 font-medium leading-none">Online • University Assistant</p>
                             </div>
-                        </div>
-                        <div className="flex gap-2">
-                            <button className="p-2 text-slate-500 hover:text-primary transition-colors">
-                                <span className="material-symbols-outlined">search</span>
-                            </button>
-                            <button className="p-2 text-slate-500 hover:text-primary transition-colors">
-                                <span className="material-symbols-outlined">more_vert</span>
-                            </button>
                         </div>
                     </div>
 
@@ -191,9 +183,6 @@ export default function LandingPage() {
                     <div className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 w-full">
                         <div className="max-w-4xl mx-auto flex flex-col">
                             <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-                                <button type="button" className="p-2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center">
-                                    <span className="material-symbols-outlined">attach_file</span>
-                                </button>
                                 <div className="relative flex-1">
                                     <input
                                         className="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-500"

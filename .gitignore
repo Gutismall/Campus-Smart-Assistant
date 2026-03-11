@@ -11,6 +11,7 @@ venv/
 *.env
 *.docx
 /db
+*.csv
 
 # IDE
 .vscode/
@@ -32,3 +33,10 @@ backend/prompts
 #frontend
 frontend/stitch/
 *.html
+
+# Terraform sensitive files
+*.tfvars
+*.tfvars.json
+# Also ignore the state files which might contain secrets
+*.tfstate
+*.tfstate.backup

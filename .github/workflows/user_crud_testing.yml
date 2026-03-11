@@ -1,19 +1,12 @@
-name: Auth Testing
+name: User CRUD Testing
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'backend/utils/jwt.py'
-      - 'backend/routers/auth.py'
   pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'backend/utils/jwt.py'
-      - 'backend/routers/auth.py'
+    types: [closed]
 
 jobs:
-  auth-test:
+  user-crud-test:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     services:
@@ -56,13 +49,13 @@ jobs:
       run: |
         python seed.py
         
-    - name: Run Auth Tests
+    - name: Run User CRUD Tests
       working-directory: backend
       env:
-        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+        DATABASE_URL: "postgresql://campus_admin:adminpassword@localhost:5432/campus_data_db"
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         JWT_EXPIRE_HOURS: "24"
         ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       run: |
-        python -m pytest tests/test_auth.py
+        python -m pytest tests/test_user_crud.py

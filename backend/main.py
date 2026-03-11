@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from database import engine, Base
 import models
 import schemas
-from routers import chat, data, auth
+from routers import chat, data_endpoints, auth, user
 from dependencies import get_current_user, get_admin_user
 from seed import run_migrations, run_seed
 
@@ -21,8 +21,9 @@ app = FastAPI(title="Campus Data Backend", lifespan=lifespan)
 
 # ── Routers ────────────────────────────────────────────────────────────────────
 app.include_router(auth.router)
+app.include_router(user.router)
 app.include_router(chat.router, dependencies=[Depends(get_current_user)])
-app.include_router(data.router, dependencies=[Depends(get_admin_user)])
+app.include_router(data_endpoints.router, dependencies=[Depends(get_admin_user)])
 
 # ── CORS ───────────────────────────────────────────────────────────────────────
 app.add_middleware(

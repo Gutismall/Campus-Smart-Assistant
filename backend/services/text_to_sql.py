@@ -5,7 +5,9 @@ from sqlalchemy.orm import Session
 from google.genai import types
 from services.llm import get_llm_client
 from services.llm.gemini import GeminiClient
+from services.llm.openai import OpenAIClient
 from services.tools import build_execute_sql_tool
+import json
 
 load_dotenv()
 
@@ -43,39 +45,87 @@ def _build_user_context(user_metadata: dict | None) -> str:
 
 async def answer_question(question: str, user_metadata: dict | None, db: Session) -> str:
     """
-    Uses Gemini Function Calling (Tool Use):
-      1. The LLM receives the question + schema + an execute_sql tool.
-      2. The LLM decides to call execute_sql with the appropriate SQL query.
-      3. The SDK runs the tool, passes the result back to the LLM automatically.
-      4. The LLM returns the final human-readable answer in one round-trip.
+    Handles tool calling for both Gemini and OpenAI providers to execute SQL queries
+    and return a natural language response.
     """
     llm = get_llm_client()
-
-    if not isinstance(llm, GeminiClient):
-        return "Tool calling is not yet supported for the configured LLM provider."
-
     user_context = _build_user_context(user_metadata)
     system_instruction = f"{SCHEMA_CONTEXT}\n\nUser context: {user_context}"
-
-    # Build the SQL tool with the current db session injected
+    
     execute_sql = build_execute_sql_tool(db)
 
-    chat = llm.client.chats.create(
-        model=llm.model_name,
-        config=types.GenerateContentConfig(
-            tools=[execute_sql],
-            system_instruction=system_instruction,
-        ),
-    )
+    if isinstance(llm, GeminiClient):
+        chat = llm.client.chats.create(
+            model=llm.model_name,
+            config=types.GenerateContentConfig(
+                tools=[execute_sql],
+                system_instruction=system_instruction,
+            ),
+        )
 
-    response = chat.send_message(question)
-    
-    # If the response has no text, it might be waiting for a tool result 
-    # or it might have just returned a function call. 
-    # The SDK usually handles the round-trip, but we need to ensure we grab the final text.
-    if not response.text:
-        # Check if the last part of the response is a function call
-        # In case of manual handling or unexpected SDK state, return a fallback.
-        return "The database assistant is processing your request..."
+        response = chat.send_message(question)
+        if not response.text:
+            return "The database assistant is processing your request..."
+        return response.text.strip()
+        
+    elif isinstance(llm, OpenAIClient):
+        tools = [{
+            "type": "function",
+            "function": {
+                "name": "execute_sql",
+                "description": "Execute a SQL SELECT query against the campus PostgreSQL database.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "A valid PostgreSQL SELECT statement."
+                        }
+                    },
+                    "required": ["query"]
+                }
+            }
+        }]
+        
+        messages = [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": question}
+        ]
+        
+        response = llm._client.chat.completions.create(
+            model=llm._model_name,
+            messages=messages,
+            tools=tools,
+            temperature=0,
+        )
+        
+        response_msg = response.choices[0].message
+        
+        if response_msg.tool_calls:
+            # Append the assistant's tool call message
+            messages.append(response_msg)
+            
+            # Execute all tools the LLM requested
+            for tool_call in response_msg.tool_calls:
+                if tool_call.function.name == "execute_sql":
+                    args = json.loads(tool_call.function.arguments)
+                    result = execute_sql(args.get("query", ""))
+                    messages.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,
+                        "name": "execute_sql",
+                        "content": str(result)
+                    })
+                    
+            # Make a second call to get the final answer
+            final_response = llm._client.chat.completions.create(
+                model=llm._model_name,
+                messages=messages,
+                temperature=0,
+            )
+            return final_response.choices[0].message.content.strip()
+        else:
+            return response_msg.content.strip()
 
-    return response.text.strip()
+    else:
+        return "Tool calling is not supported for the connected LLM provider."
