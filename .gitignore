@@ -40,3 +40,4 @@ frontend/stitch/
 # Also ignore the state files which might contain secrets
 *.tfstate
 *.tfstate.backup
+.terraform/
