@@ -16,7 +16,7 @@ def get_llm_client() -> BaseLLMClient:
       3. Add a new case to this factory
       4. Set LLM_PROVIDER=your_provider in .env
     """
-    provider = os.environ.get("LLM_PROVIDER").lower()
+    provider = os.environ.get("LLM_PROVIDER", "gemini").lower()
 
     if provider == "gemini":
         from .gemini import GeminiClient

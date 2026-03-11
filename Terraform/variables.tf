@@ -36,3 +36,9 @@ variable "jwt_secret" {
 variable "text_to_sql_schema_context" {
   type      = string
 }
+
+variable "llm_provider" {
+  type        = string
+  default     = "gemini"
+  description = "The LLM provider to use (gemini or openai)"
+}
