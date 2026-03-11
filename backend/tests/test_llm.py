@@ -1,34 +1,19 @@
-"""
-Integration tests.
-
-Tests require a running PostgreSQL instance and a valid GEMINI_API_KEY.
-Set these in the root .env before running, or as CI/CD secrets.
-
-Run:
-  docker exec backend pytest tests/
-"""
-
 import asyncio
-import os
+import json
 import pytest
 from dotenv import load_dotenv
-
 from database import get_db
 from services.text_to_sql import answer_question
 from services.llm.gemini import GeminiClient
-
-# Load root-level .env (one level above backend/)
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
+from models import Student
+# Load backend-level .env
+load_dotenv()
 
 
 # ── Shared fixture ─────────────────────────────────────────────────────────────
 
 @pytest.fixture()
 def db():
-    """
-    Yields a real SQLAlchemy session using the existing get_db() from database.py.
-    Automatically closed after each test.
-    """
     session = next(get_db())
     yield session
 
@@ -131,3 +116,44 @@ class TestAnswerQuestion:
         assert "not relevant" in response.lower(), (
             f"Expected 'not relevant' in response, got: {response!r}"
         )
+
+    def test_admin_gets_all_students(self, db):
+        """
+        Acting as admin, ask for the info of all students.
+        The LLM should return a JSON with 10 student items in the info array.
+        """
+        user_metadata = {
+            "role": "admin",
+            "user_id": 1,
+        }
+
+        response = asyncio.run(
+            answer_question(
+                question="Give me the info for all students.",
+                user_metadata=user_metadata,
+                db=db,
+            )
+        )
+
+        assert isinstance(response, str), "Response must be a string."
+        
+        # Strip potential markdown formatting before parsing JSON
+        clean_msg = response.strip()
+        if clean_msg.startswith('```json'):
+            clean_msg = clean_msg.replace('```json', '').replace('```', '').strip()
+        elif clean_msg.startswith('```'):
+            clean_msg = clean_msg.replace('```', '').strip()
+            
+        try:
+            data = json.loads(clean_msg)
+        except json.JSONDecodeError:
+            pytest.fail(f"Failed to parse JSON response. Raw string: {clean_msg}")
+            
+        assert "message" in data, "JSON must contain 'message' key"
+        assert "info" in data, "JSON must contain 'info' key"
+        assert isinstance(data["info"], list), "JSON 'info' key must be an array"
+        
+        # Verify that we actually pulled all seeded students by querying the DB
+        
+        total_students_in_db = db.query(Student).count()
+        assert len(data["info"]) == total_students_in_db, f"Expected {total_students_in_db} students, got {len(data['info'])}"

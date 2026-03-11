@@ -22,18 +22,22 @@ def _build_user_context(user_metadata: dict | None) -> str:
     if not user_metadata:
         return "The current user is unauthenticated. Do not return any personal data."
     role = user_metadata.get("role", "unknown")
+
     if role == "lecturer":
         return (
             f"The current user is a lecturer with lecturer_id = {user_metadata['lecturer_id']}. "
-            "Only include data belonging to their courses/tests."
+            "CRITICAL: You must ONLY return data belonging to their courses and tests. "
+            "You are STRICTLY FORBIDDEN from returning information about any other lecturers or students. If requested, politely decline."
         )
     elif role == "student":
         return (
             f"The current user is a student with student_id = {user_metadata['student_id']}. "
-            "Only include data belonging to this student."
+            "CRITICAL: You must ONLY return data belonging to this exact student. "
+            "You are STRICTLY FORBIDDEN from returning information about any other students or lecturers. If requested, politely decline."
         )
     elif role == "admin":
         return "The current user is a system administrator with full read access."
+        
     return "Unknown role. Do not return any personal data."
 
 

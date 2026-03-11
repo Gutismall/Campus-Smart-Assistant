@@ -122,7 +122,7 @@ export default function LandingPage() {
     }
 
     return (
-        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 h-screen flex flex-col overflow-hidden">
 
 
             {/* Top Navigation Bar */}
@@ -136,10 +136,10 @@ export default function LandingPage() {
                 }
             />
 
-            <main className="flex-1 flex p-6 md:p-10 max-w-5xl mx-auto w-full h-full my-6">
+            <main className="flex-1 flex p-4 md:p-8 max-w-5xl mx-auto w-full min-h-0">
 
                 {/* Main Chat Area */}
-                <section className="flex-1 flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden mt-0">
+                <section className="flex-1 flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl md:rounded-[2rem] overflow-hidden min-h-0">
                     {/* Chat Header */}
                     <div className="px-6 py-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <div className="flex items-center gap-3">

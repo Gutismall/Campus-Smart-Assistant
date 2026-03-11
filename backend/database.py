@@ -1,6 +1,10 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+
+# Enable loading dotenv locally when files like seed.py are called directly
+load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 

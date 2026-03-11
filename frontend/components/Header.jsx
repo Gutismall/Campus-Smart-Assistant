@@ -22,9 +22,22 @@ export default function Header({ navItems = [] }) {
                     ))}
                 </nav>
 
-                <div className="bg-primary/10 rounded-full h-10 w-10 flex items-center justify-center overflow-hidden border border-primary/20">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img alt="Student profile avatar" className="w-full h-full object-cover" data-alt="University student profile picture avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCZrZH8zNCmGQtTz9ByrCPMydlp_fOH2UAGDznOkwK3idEJ9fFrlZSVVw6Z1q6MSoFx2vrmP01yIIUFyW67D_4SGJcLutao87RHAcefUfVt44-aNpE0Ps-VMzfS2rDIQeU0Dz5T88EAemmx6JN7R7WXQPjXuuXhO-ifojo740CzYRFBA_8r-ZAghh3OC6UXmh0-jrPz0-WDyOrC1pk_QS1t-oD_TuOwpTL_OXj8-7uUpAUuu5R-BCjBT401kMzOQLuTf69bZwFx-E" />
+                <div className="flex items-center gap-3">
+                    <div className="bg-primary/10 rounded-full h-10 w-10 flex items-center justify-center overflow-hidden border border-primary/20 shadow-sm">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img alt="Student profile avatar" className="w-full h-full object-cover" data-alt="University student profile picture avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCZrZH8zNCmGQtTz9ByrCPMydlp_fOH2UAGDznOkwK3idEJ9fFrlZSVVw6Z1q6MSoFx2vrmP01yIIUFyW67D_4SGJcLutao87RHAcefUfVt44-aNpE0Ps-VMzfS2rDIQeU0Dz5T88EAemmx6JN7R7WXQPjXuuXhO-ifojo740CzYRFBA_8r-ZAghh3OC6UXmh0-jrPz0-WDyOrC1pk_QS1t-oD_TuOwpTL_OXj8-7uUpAUuu5R-BCjBT401kMzOQLuTf69bZwFx-E" />
+                    </div>
+                    <button 
+                        onClick={() => {
+                            localStorage.removeItem('token');
+                            window.location.href = '/auth/login';
+                        }}
+                        className="text-slate-500 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 font-medium transition-colors flex items-center gap-1.5 text-sm ml-2"
+                        title="Logout"
+                    >
+                        <span className="material-symbols-outlined text-[20px]">logout</span>
+                        <span className="hidden sm:inline">Logout</span>
+                    </button>
                 </div>
             </div>
         </header>

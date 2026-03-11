@@ -1,0 +1,68 @@
+name: Auth Testing
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/utils/jwt.py'
+      - 'backend/routers/auth.py'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'backend/utils/jwt.py'
+      - 'backend/routers/auth.py'
+
+jobs:
+  auth-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: adminpassword
+          POSTGRES_DB: campus_data_db
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+        
+    - name: Install dependencies
+      working-directory: backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Alembic migrations
+      working-directory: backend
+      env:
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+      run: |
+        alembic upgrade head
+
+    - name: Seed required data
+      working-directory: backend
+      env:
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      run: |
+        python seed.py
+        
+    - name: Run Auth Tests
+      working-directory: backend
+      env:
+        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_EXPIRE_HOURS: "24"
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      run: |
+        python -m pytest tests/test_auth.py

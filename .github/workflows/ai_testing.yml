@@ -1,13 +1,17 @@
-name: CI
+name: AI Testing
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'backend/services/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'backend/services/**'
 
 jobs:
-  test:
+  ai-test:
     runs-on: ubuntu-latest
 
     services:
@@ -22,16 +26,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    # Check what files changed to decide which tests to run
-    - name: Check for changes
-      id: changes
-      uses: dorny/paths-filter@v3
-      with:
-        filters: |
-          services:
-            - 'backend/services/**'
-            - 'backend/tests/test_llm.py'
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -60,16 +54,7 @@ jobs:
       run: |
         python seed.py
         
-    - name: Run Authentication Tests (Always)
-      working-directory: backend
-      env:
-        DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      run: |
-        python -m pytest tests/test_auth.py
-
-    - name: Run LLM Tests (Conditionally)
-      if: steps.changes.outputs.services == 'true'
+    - name: Run LLM Tests
       working-directory: backend
       env:
         DATABASE_URL: "postgresql://admin:adminpassword@localhost:5432/campus_data_db"

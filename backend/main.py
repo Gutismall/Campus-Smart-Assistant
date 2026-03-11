@@ -35,12 +35,3 @@ app.add_middleware(
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
-@app.get("/api/test")
-def test_connection():
-    return {
-        "status": "success",
-        "message": "Hello from FastAPI Backend!",
-        "database_url_configured": bool(DATABASE_URL),
-        "gemini_api_key_configured": bool(GEMINI_API_KEY),
-    }
