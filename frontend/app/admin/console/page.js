@@ -18,8 +18,8 @@ export default function AdminConsole() {
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const url = process.env.NEXT_PUBLIC_API_URL;
-                const res = await fetch(`${url}/api/user/requests`, { headers: getAuthHeaders() });
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                const res = await fetch(`${API_URL}/api/user/requests`, { headers: getAuthHeaders() });
                 if (res.ok) {
                     const users = await res.json();
                     // Just filter non-admin users to show as pending requests for demonstration

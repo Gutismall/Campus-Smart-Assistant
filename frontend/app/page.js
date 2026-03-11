@@ -47,8 +47,9 @@ export default function LandingPage() {
 
         try {
             const token = localStorage.getItem('token');
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chat/message`, {
+            const response = await fetch(`${API_URL}/api/chat/message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
