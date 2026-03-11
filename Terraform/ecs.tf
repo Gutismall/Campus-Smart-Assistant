@@ -22,8 +22,21 @@ resource "aws_ecs_task_definition" "backend" {
     image        = "${aws_ecr_repository.backend.repository_url}:latest" # Point to your ECR URL
     portMappings = [{ containerPort = 8000, hostPort = 8000 }]
     environment = [
-      { name = "DATABASE_URL", value = "postgresql://campus_admin:${var.db_password}@${aws_db_instance.campus_db.endpoint}/${var.db_name}" }
-    ]
+      { name = "DATABASE_URL", value = "postgresql://${var.db_username}:${var.db_password}@${aws_db_instance.campus_db.endpoint}/${var.db_name}" },
+      { name = "ADMIN_EMAIL", value = var.admin_email },
+      { name = "ADMIN_PASSWORD", value = var.admin_password },
+      { name = "GEMINI_API_KEY", value = var.gemini_api_key },
+      { name = "JWT_SECRET", value = var.jwt_secret },
+      { name = "TEXT_TO_SQL_SCHEMA_CONTEXT", value = var.text_to_sql_schema_context }
+    ],
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs_logs.name
+        "awslogs-region"        = "us-east-1"
+        "awslogs-stream-prefix" = "backend"
+      }
+    }
   }])
 }
 
@@ -72,7 +85,15 @@ resource "aws_ecs_task_definition" "frontend" {
     # This is how the React/Express app knows where to send API calls
     environment = [
       { name = "NEXT_PUBLIC_API_URL", value = "http://${aws_lb.campus_alb.dns_name}:8000" }
-    ]
+    ],
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs_logs.name
+        "awslogs-region"        = "us-east-1"
+        "awslogs-stream-prefix" = "frontend"
+      }
+    }
   }])
 }
 

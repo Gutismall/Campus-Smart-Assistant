@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "CD" ]
 
 env:
   AWS_REGION: us-east-1
@@ -11,6 +11,7 @@ env:
   ECS_SERVICE_BACKEND: campus-backend-service
   ECS_SERVICE_FRONTEND: campus-frontend-service
   ECS_CLUSTER: campus-cluster
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
 jobs:
   deploy:
@@ -61,7 +62,10 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build --platform linux/arm64 -t $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:latest ./frontend
+        docker build --platform linux/arm64 \
+          --build-arg NEXT_PUBLIC_API_URL=${{ env.NEXT_PUBLIC_API_URL }} \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:latest ./frontend
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND --all-tags
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
