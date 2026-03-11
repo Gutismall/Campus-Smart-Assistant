@@ -22,12 +22,12 @@ resource "aws_ecs_task_definition" "backend" {
     image        = "${aws_ecr_repository.backend.repository_url}:latest" # Point to your ECR URL
     portMappings = [{ containerPort = 8000, hostPort = 8000 }]
     environment = [
-      { name = "DATABASE_URL", value = "postgresql://campus_admin:${var.db_password}@${aws_db_instance.campus_db.endpoint}/campus_data_db" }
+      { name = "DATABASE_URL", value = "postgresql://campus_admin:${var.db_password}@${aws_db_instance.campus_db.endpoint}/${var.db_name}" }
     ]
   }])
 }
 
-# 3. Launch the Backend Service
+  # 3. Launch the Backend Service
 resource "aws_ecs_service" "backend" {
   name            = "campus-backend-service"
   cluster         = aws_ecs_cluster.main.id
@@ -37,8 +37,14 @@ resource "aws_ecs_service" "backend" {
 
   network_configuration {
     subnets          = module.vpc.public_subnets
-    assign_public_ip = true # So you can reach it via IP for now
+    assign_public_ip = true
     security_groups  = [aws_security_group.app_sg.id]
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.backend_tg.arn
+    container_name   = "backend"
+    container_port   = 8000
   }
 }
 # 1. Define the Frontend Task
@@ -65,7 +71,7 @@ resource "aws_ecs_task_definition" "frontend" {
 
     # This is how the React/Express app knows where to send API calls
     environment = [
-      { name = "BACKEND_API_URL", value = "http://54.90.69.229:8000" }
+      { name = "NEXT_PUBLIC_API_URL", value = "http://${aws_lb.campus_alb.dns_name}:8000" }
     ]
   }])
 }
@@ -82,5 +88,11 @@ resource "aws_ecs_service" "frontend" {
     subnets          = module.vpc.public_subnets
     assign_public_ip = true
     security_groups  = [aws_security_group.app_sg.id]
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+    container_name   = "frontend"
+    container_port   = 3000
   }
 }

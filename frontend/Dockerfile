@@ -6,5 +6,10 @@ RUN npm install
 
 COPY . .
 
+# Build the Next.js/React application for production
+RUN npm run build
+
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+
+# Run in production mode
+CMD ["npm", "run", "start"]
