@@ -28,7 +28,8 @@ resource "aws_ecs_task_definition" "backend" {
       { name = "GEMINI_API_KEY", value = var.gemini_api_key },
       { name = "JWT_SECRET", value = var.jwt_secret },
       { name = "TEXT_TO_SQL_SCHEMA_CONTEXT", value = var.text_to_sql_schema_context },
-      { name = "LLM_PROVIDER", value = var.llm_provider }
+      { name = "LLM_PROVIDER", value = var.llm_provider },
+      { name = "GEMINI_MODEL", value = var.gemini_model }
     ],
     logConfiguration = {
       logDriver = "awslogs"

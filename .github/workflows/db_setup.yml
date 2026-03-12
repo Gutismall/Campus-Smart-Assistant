@@ -8,13 +8,7 @@ on:
       - 'backend/models/**'
       - 'backend/seed.py'
       - 'backend/database.py'
-  pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'backend/alembic/**'
-      - 'backend/models/**'
-      - 'backend/seed.py'
-      - 'backend/database.py'
+
 
 jobs:
   db-setup:
