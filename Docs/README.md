@@ -7,34 +7,7 @@ This document provides a technical deep dive into the infrastructure and softwar
 ## 1. Cloud Infrastructure (AWS)
 This diagram showcases how the system is deployed using **Terraform**. It focuses on network isolation and container orchestration.
 
-```mermaid
-graph TB
-    subgraph "Public Network"
-        IGW[Internet Gateway]
-        ALB[Application Load Balancer]
-    end
-
-    subgraph "VPC (us-east-1)"
-        subgraph "Public Subnet"
-            NAT[NAT Gateway]
-        end
-
-        subgraph "Private Subnet (Compute)"
-            Frontend[ECS: Next.js Container]
-            Backend[ECS: FastAPI Container]
-        end
-
-        subgraph "Private Subnet (Data)"
-            RDS[(Amazon RDS - PostgreSQL)]
-        end
-    end
-
-    User((User)) -->|HTTPS| ALB
-    ALB -->|Routing| Frontend
-    Frontend -->|API Calls| Backend
-    Backend -->|Queries| RDS
-    Backend -->|Logs| CW[CloudWatch]
-```
+![Cloud Infrastructure Diagram](./Cloud%20Infrestructer.png)
 
 ### Key Components:
 *   **ALB (Load Balancer):** The single entry point for all traffic. It handles SSL termination and routes traffic to the appropriate ECS service.
@@ -47,29 +20,7 @@ graph TB
 ## 2. Software Architecture (FastAPI Design)
 This diagram explains the internal organization of the **Python Backend**, following the **Controller-Service-Repository** pattern.
 
-```mermaid
-graph LR
-    subgraph "API Layer (Routers)"
-        Router[Auth/Chat/Data Routers]
-    end
-
-    subgraph "Logic Layer (Services)"
-        AuthS[Auth Service]
-        RAG[Text-to-SQL Service]
-        LLM[LLM Factory]
-    end
-
-    subgraph "Data Layer"
-        Models[SQLAlchemy Models]
-        DB[(PostgreSQL)]
-    end
-
-    Router --> AuthS
-    Router --> RAG
-    RAG --> LLM
-    RAG --> Models
-    Models --> DB
-```
+![Software Architecture Diagram](./Campus%20Smart%20Assistant%20Architecture.png)
 
 ### Design Patterns:
 *   **Routers (Controllers):** Located in `backend/routers/`. They handle HTTP parsing and input validation.
