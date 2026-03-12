@@ -10,7 +10,7 @@ This diagram showcases how the system is deployed using **Terraform**. It focuse
 ![Cloud Infrastructure Diagram](./Cloud%20Infrestructer.png)
 
 ### Key Components:
-*   **ALB (Load Balancer):** The single entry point for all traffic. It handles SSL termination and routes traffic to the appropriate ECS service.
+*   **ALB (Load Balancer):** The single entry point for all traffic. It handles routes traffic to the appropriate ECS service.
 *   **ECS Fargate:** Serverless container execution. The Frontend (Next.js) and Backend (FastAPI) run in private subnets for maximum security.
 *   **RDS (PostgreSQL):** A managed database hidden in a deep private subnet, accessible only by the Backend container.
 *   **NAT Gateway:** Allows containers in private subnets to reach the internet (e.g., to call the Gemini API) without being exposed to incoming attacks.
@@ -18,18 +18,18 @@ This diagram showcases how the system is deployed using **Terraform**. It focuse
 ---
 
 ## 2. Software Architecture (FastAPI Design)
-This diagram explains the internal organization of the **Python Backend**, following the **Controller-Service-Repository** pattern.
+This diagram explains the internal organization of the **Python Backend**.
 
 ![Software Architecture Diagram](./Campus%20Smart%20Assistant%20Architecture.png)
 
 ### Design Patterns:
 *   **Routers (Controllers):** Located in `backend/routers/`. They handle HTTP parsing and input validation.
 *   **LLM Factory:** A pattern used in `services/llm/` that allows the system to switch between **Google Gemini** and **OpenAI** dynamically based on environment variables.
-*   **RAG (Retrieval-Augmented Generation):** The bridge between natural language and structured data.
+*   **AI Service:** The bridge between natural language and structured data.
 
 ---
 
-## 3. The AI RAG Flow (Text-to-SQL)
+## 3. The AI Flow (Text-to-SQL)
 The most critical logic in the project. This sequence shows how a human question becomes a database result.
 
 ```mermaid
