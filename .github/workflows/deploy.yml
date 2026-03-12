@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - '.github/workflows/**'
       - 'README.md'
-      - 'docs/**'
+      - 'Docs/**'
 
 env:
   AWS_REGION: us-east-1
