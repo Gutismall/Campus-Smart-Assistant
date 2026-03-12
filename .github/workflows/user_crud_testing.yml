@@ -1,12 +1,13 @@
 name: User CRUD Testing
 
-on:
-  pull_request:
-    types: [closed]
+on: 
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/services/**'
 
 jobs:
   user-crud-test:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     services:

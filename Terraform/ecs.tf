@@ -27,7 +27,9 @@ resource "aws_ecs_task_definition" "backend" {
       { name = "ADMIN_PASSWORD", value = var.admin_password },
       { name = "GEMINI_API_KEY", value = var.gemini_api_key },
       { name = "JWT_SECRET", value = var.jwt_secret },
-      { name = "TEXT_TO_SQL_SCHEMA_CONTEXT", value = var.text_to_sql_schema_context }
+      { name = "TEXT_TO_SQL_SCHEMA_CONTEXT", value = var.text_to_sql_schema_context },
+      { name = "LLM_PROVIDER", value = var.llm_provider },
+      { name = "GEMINI_MODEL", value = var.gemini_model }
     ],
     logConfiguration = {
       logDriver = "awslogs"
@@ -40,7 +42,7 @@ resource "aws_ecs_task_definition" "backend" {
   }])
 }
 
-  # 3. Launch the Backend Service
+# 3. Launch the Backend Service
 resource "aws_ecs_service" "backend" {
   name            = "campus-backend-service"
   cluster         = aws_ecs_cluster.main.id

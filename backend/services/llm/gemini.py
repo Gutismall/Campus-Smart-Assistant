@@ -7,7 +7,7 @@ class GeminiClient(BaseLLMClient):
 
     def __init__(self):
         api_key = os.environ.get("GEMINI_API_KEY")
-        self._model_name = os.environ.get("GEMINI_MODEL")
+        self._model_name = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 
         if not api_key:
             raise ValueError("GEMINI_API_KEY is not set in the environment.")

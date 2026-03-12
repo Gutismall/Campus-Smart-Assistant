@@ -6,11 +6,7 @@ on:
     paths:
       - 'backend/utils/jwt.py'
       - 'backend/routers/auth.py'
-  pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'backend/utils/jwt.py'
-      - 'backend/routers/auth.py'
+
 
 jobs:
   auth-test:
