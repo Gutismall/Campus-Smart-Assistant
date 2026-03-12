@@ -9,7 +9,6 @@ venv/
 # Environment variables (NEVER commit these)
 .env
 *.env
-*.docx
 /db
 *.csv
 
