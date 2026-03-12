@@ -43,10 +43,9 @@ sequenceDiagram
     B->>B: Load schema_context.txt
     B->>AI: Question + Database Schema
     AI->>AI: Generate SQL Query
-    AI-->>B: SELECT count(*) FROM rooms...
-    B->>DB: Execute SQL
-    DB-->>B: Result: 12
-    B->>AI: Format Result into Human Speech
+    AI-->>DB: SELECT count(*) FROM rooms...
+    DB-->>AI: Result: 12
+    AI->>B: Format Result into Human Speech
     AI-->>B: "There are 12 rooms in Building A."
     B->>U: Final Answer
 ```
